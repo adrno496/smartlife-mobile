@@ -142,18 +142,9 @@ body {
   overflow: hidden;
 }
 
-/* ===== SIDEBAR ===== */
+/* ===== SIDEBAR — supprimée, remplacée par le drawer ===== */
 #sidebar {
-  width: var(--sidebar-expanded);
-  min-width: var(--sidebar-expanded);
-  background: var(--bg-sidebar);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  padding: var(--sp-4) 0;
-  transition: width var(--tr-slow), min-width var(--tr-slow);
-  overflow: hidden;
-  z-index: 100;
+  display: none;
 }
 
 .sidebar-logo {
@@ -1360,33 +1351,6 @@ body {
   text-overflow: ellipsis;
 }
 
-/* ===== RESPONSIVE SIDEBAR ===== */
-@media (max-width: 1100px) {
-  #sidebar {
-    width: var(--sidebar-collapsed);
-    min-width: var(--sidebar-collapsed);
-  }
-
-  .sidebar-logo-text,
-  .nav-item .nav-text,
-  .nav-label,
-  .sidebar-version {
-    display: none;
-  }
-
-  .sidebar-logo {
-    justify-content: center;
-    padding: var(--sp-2) var(--sp-3) var(--sp-4);
-  }
-
-  .nav-item {
-    justify-content: center;
-    padding: 10px;
-  }
-
-  .nav-item.active::before { display: none; }
-  .nav-item.active { background: var(--accent-dim); }
-}
 
 /* ===== UTILITAIRES ===== */
 .text-center { text-align: center; }
@@ -1494,12 +1458,7 @@ body {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Sur desktop, masquer le hamburger */
-@media (min-width: 641px) {
-  .btn-hamburger {
-    display: none;
-  }
-}
+/* Hamburger toujours visible — sidebar supprimée */
 
 /* ===== TOGGLE THÈME ===== */
 .btn-theme-toggle {
@@ -1541,17 +1500,21 @@ body {
 
 /* ===== NAV DRAWER ===== */
 #nav-drawer-overlay {
-  display: none;
+  display: block;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.55);
   z-index: 300;
   backdrop-filter: blur(2px);
   opacity: 0;
+  pointer-events: none;
   transition: opacity var(--tr-normal);
 }
 
-#nav-drawer-overlay.open { opacity: 1; }
+#nav-drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 #nav-drawer {
   position: fixed;
@@ -1690,16 +1653,6 @@ body {
   /* Hauteur dynamique pour éviter le chrome du navigateur */
   #app {
     height: 100dvh;
-  }
-
-  /* Masquer la sidebar latérale */
-  #sidebar {
-    display: none;
-  }
-
-  /* Activer l'overlay drawer */
-  #nav-drawer-overlay {
-    display: block;
   }
 
   /* Contenu principal pleine largeur */
