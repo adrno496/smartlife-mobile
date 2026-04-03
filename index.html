@@ -522,5 +522,13 @@
 <!-- ===== SCRIPT PRINCIPAL ===== -->
 <script src="app.js"></script>
 
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').then(reg => {
+    reg.update();
+  });
+}
+</script>
+
 </body>
 </html>
