@@ -71,14 +71,23 @@
 
     <!-- TOPBAR -->
     <header id="topbar">
-      <div>
-        <div class="topbar-title" id="topbar-title">Tableau de bord</div>
-        <div class="topbar-subtitle" id="topbar-subtitle">Bienvenue sur SmartLife Pro</div>
+      <div class="topbar-left">
+        <button class="btn-hamburger" id="btn-menu-toggle" aria-label="Ouvrir le menu de navigation" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+        <div class="topbar-titles">
+          <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+          <div class="topbar-subtitle" id="topbar-subtitle">Bienvenue sur SmartLife Pro</div>
+        </div>
       </div>
       <div class="topbar-actions">
-        <button class="btn btn-secondary btn-sm" id="btn-theme-toggle" aria-label="Changer de thème" title="Thème clair / sombre">🌙</button>
-        <button class="btn btn-secondary btn-sm" id="btn-menu-toggle" aria-label="Menu navigation">☰</button>
-        <button class="btn btn-primary btn-sm" id="btn-quick-add">＋ Nouvelle tâche</button>
+        <button class="btn-theme-toggle" id="btn-theme-toggle" aria-label="Basculer thème clair / sombre" title="Thème clair / sombre">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+          <span class="theme-label" id="theme-label">Sombre</span>
+        </button>
+        <button class="btn btn-primary btn-sm" id="btn-quick-add">＋ <span class="btn-quick-label">Tâche</span></button>
       </div>
     </header>
 
@@ -365,6 +374,13 @@
   </nav>
 
   <div class="drawer-footer">
+    <button class="drawer-theme-btn" id="btn-drawer-theme" aria-label="Basculer thème">
+      <span class="drawer-theme-icon" id="drawer-theme-icon">🌙</span>
+      <span class="drawer-theme-text" id="drawer-theme-text">Thème sombre</span>
+      <span class="drawer-theme-toggle-track">
+        <span class="drawer-theme-toggle-thumb"></span>
+      </span>
+    </button>
     <div class="sidebar-version">SmartLife Pro v1.0.0</div>
   </div>
 </div>

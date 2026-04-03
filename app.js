@@ -1612,18 +1612,25 @@ if ('serviceWorker' in navigator) {
   function openDrawer() {
     drawer.classList.add('open');
     overlay.classList.add('open');
+    btnOpen.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
     drawer.classList.remove('open');
     overlay.classList.remove('open');
+    btnOpen.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
 
   btnOpen.addEventListener('click', openDrawer);
   btnClose.addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
+
+  // Fermer avec Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
 
   drawer.querySelectorAll('.nav-item[data-nav]').forEach(item => {
     item.addEventListener('click', closeDrawer);
@@ -1632,28 +1639,46 @@ if ('serviceWorker' in navigator) {
 
 /* ===== THÈME CLAIR / SOMBRE ===== */
 (function () {
-  const btn  = document.getElementById('btn-theme-toggle');
-  const root = document.documentElement;
-  const KEY  = 'smartlife-theme';
+  const btn           = document.getElementById('btn-theme-toggle');
+  const iconEl        = document.getElementById('theme-icon');
+  const labelEl       = document.getElementById('theme-label');
+  const drawerBtn     = document.getElementById('btn-drawer-theme');
+  const drawerIconEl  = document.getElementById('drawer-theme-icon');
+  const drawerTextEl  = document.getElementById('drawer-theme-text');
+  const root          = document.documentElement;
+  const KEY           = 'smartlife-theme';
 
   function applyTheme(theme) {
     if (theme === 'light') {
       root.setAttribute('data-theme', 'light');
-      btn.textContent = '☀️';
+      if (iconEl)       iconEl.textContent       = '☀️';
+      if (labelEl)      labelEl.textContent      = 'Clair';
+      if (drawerIconEl) drawerIconEl.textContent = '☀️';
+      if (drawerTextEl) drawerTextEl.textContent = 'Thème clair';
+      btn.setAttribute('aria-label', 'Passer en thème sombre');
       btn.title = 'Passer en thème sombre';
     } else {
       root.removeAttribute('data-theme');
-      btn.textContent = '🌙';
+      if (iconEl)       iconEl.textContent       = '🌙';
+      if (labelEl)      labelEl.textContent      = 'Sombre';
+      if (drawerIconEl) drawerIconEl.textContent = '🌙';
+      if (drawerTextEl) drawerTextEl.textContent = 'Thème sombre';
+      btn.setAttribute('aria-label', 'Passer en thème clair');
       btn.title = 'Passer en thème clair';
     }
     localStorage.setItem(KEY, theme);
   }
 
-  // Restaurer le thème sauvegardé
-  applyTheme(localStorage.getItem(KEY) || 'dark');
-
-  btn.addEventListener('click', () => {
+  function toggleTheme() {
     const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     applyTheme(current === 'light' ? 'dark' : 'light');
-  });
+  }
+
+  // Respecter la préférence système si aucune sauvegarde
+  const saved = localStorage.getItem(KEY);
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+
+  btn.addEventListener('click', toggleTheme);
+  if (drawerBtn) drawerBtn.addEventListener('click', toggleTheme);
 })();
