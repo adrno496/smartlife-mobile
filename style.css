@@ -1401,6 +1401,114 @@ body {
 
 .pulse { animation: pulseAccent 2s infinite; }
 
+/* ===== BOUTON HAMBURGER ===== */
+.btn-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.btn-menu-toggle span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--text-1);
+  border-radius: var(--r-full);
+  transition: all var(--tr-normal);
+}
+
+.btn-menu-toggle:hover { background: var(--bg-hover); }
+
+/* ===== NAV DRAWER ===== */
+#nav-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 300;
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity var(--tr-normal);
+}
+
+#nav-drawer-overlay.open { opacity: 1; }
+
+#nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-4) 0;
+  transform: translateX(-100%);
+  transition: transform var(--tr-slow);
+  box-shadow: var(--shadow-lg);
+}
+
+#nav-drawer.open { transform: translateX(0); }
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-2) var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp-3);
+}
+
+.drawer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.drawer-close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-2);
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  transition: all var(--tr-fast);
+}
+
+.drawer-close:hover {
+  background: var(--bg-hover);
+  color: var(--text-1);
+}
+
+.drawer-nav {
+  padding: 0 var(--sp-3);
+  flex: 1;
+  overflow-y: auto;
+}
+
+.drawer-footer {
+  padding: var(--sp-4);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
 /* ===== BOTTOM NAV — masqué par défaut (desktop) ===== */
 #bottom-nav {
   display: none;
@@ -1417,6 +1525,16 @@ body {
   /* Masquer la sidebar latérale */
   #sidebar {
     display: none;
+  }
+
+  /* Afficher le bouton hamburger */
+  .btn-menu-toggle {
+    display: flex;
+  }
+
+  /* Activer l'overlay drawer */
+  #nav-drawer-overlay {
+    display: block;
   }
 
   /* Contenu principal pleine largeur */

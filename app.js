@@ -1601,3 +1601,32 @@ if (document.readyState === 'loading') {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
+
+/* ===== NAV DRAWER (mobile) ===== */
+(function () {
+  const drawer  = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('nav-drawer-overlay');
+  const btnOpen = document.getElementById('btn-menu-toggle');
+  const btnClose = document.getElementById('btn-drawer-close');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  btnOpen.addEventListener('click', openDrawer);
+  btnClose.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  // Fermer automatiquement quand on choisit une section
+  drawer.querySelectorAll('.nav-item[data-nav]').forEach(item => {
+    item.addEventListener('click', closeDrawer);
+  });
+})();
