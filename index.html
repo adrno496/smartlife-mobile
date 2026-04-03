@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     index.html — SmartLife Pro — SPA Shell
+     ============================================================ -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6C63FF">
+<title>SmartLife Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⚡</div>
+      <div class="sidebar-logo-text">
+        <strong>SmartLife Pro</strong>
+        <span>v1.0.0</span>
+      </div>
+    </div>
+
+    <nav class="nav-section">
+      <div class="nav-label">Principal</div>
+
+      <div class="nav-item active" data-nav="dashboard">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">Tableau de bord</span>
+      </div>
+
+      <div class="nav-item" data-nav="tasks">
+        <span class="nav-icon">✅</span>
+        <span class="nav-text">Tâches</span>
+      </div>
+
+      <div class="nav-item" data-nav="habits">
+        <span class="nav-icon">🔥</span>
+        <span class="nav-text">Habitudes</span>
+      </div>
+
+      <div class="nav-item" data-nav="goals">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-text">Objectifs</span>
+      </div>
+
+      <div class="nav-label" style="margin-top:8px;">Finances & Stats</div>
+
+      <div class="nav-item" data-nav="budget">
+        <span class="nav-icon">💰</span>
+        <span class="nav-text">Budget</span>
+      </div>
+
+      <div class="nav-item" data-nav="stats">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Statistiques</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-version" id="app-version">SmartLife Pro v1.0.0</div>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENU PRINCIPAL ===== -->
+  <div id="main-content">
+
+    <!-- TOPBAR -->
+    <header id="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+        <div class="topbar-subtitle" id="topbar-subtitle">Bienvenue sur SmartLife Pro</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" id="btn-quick-add">
+          ＋ Nouvelle tâche
+        </button>
+      </div>
+    </header>
+
+    <!-- ZONE DE VUE -->
+    <div id="view-container">
+
+      <!-- ========== VUE DASHBOARD ========== -->
+      <section class="view active" id="view-dashboard">
+
+        <!-- Widgets stats -->
+        <div class="dashboard-grid" id="dashboard-stats-grid">
+          <!-- Injecté par Dashboard.render() -->
+        </div>
+
+        <!-- Grid principale : tâches + citation -->
+        <div class="dashboard-grid-wide" id="dashboard-main-grid">
+
+          <!-- Tâches du jour -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="card-title-icon">📋</span>
+                Tâches du jour
+              </div>
+              <span class="section-count" id="dash-tasks-count">0</span>
+            </div>
+            <div id="dash-tasks-list">
+              <div class="empty-state" style="padding:20px 0;">
+                <div class="empty-state-icon">📭</div>
+                <div class="empty-state-sub">Aucune tâche pour aujourd'hui</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colonne droite -->
+          <div style="display:flex;flex-direction:column;gap:20px;">
+
+            <!-- Citation motivation -->
+            <div class="quote-card" id="dash-quote">
+              <p class="quote-text" id="dash-quote-text">Chargement…</p>
+              <p class="quote-author" id="dash-quote-author">— SmartLife Pro</p>
+            </div>
+
+            <!-- Streak global -->
+            <div class="card">
+              <div class="card-title" style="margin-bottom:12px;">
+                <span>🔥</span> Streak global
+              </div>
+              <div class="streak-badge" id="dash-streak">
+                🔥 <span id="dash-streak-count">0</span> jour(s)
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========== VUE TÂCHES ========== -->
+      <section class="view" id="view-tasks">
+
+        <div class="section-header">
+          <div>
+            <div class="section-title">Mes Tâches</div>
+          </div>
+          <div class="flex gap-3 items-center">
+            <span class="section-count" id="tasks-counter">0 / 0</span>
+            <button class="btn btn-primary btn-sm" id="btn-add-task">＋ Ajouter</button>
+          </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="filter-tabs" id="task-filters">
+          <button class="filter-tab active" data-filter="all">Toutes</button>
+          <button class="filter-tab" data-filter="today">Aujourd'hui</button>
+          <button class="filter-tab" data-filter="pending">En attente</button>
+          <button class="filter-tab" data-filter="done">Complétées</button>
+        </div>
+
+        <!-- Tri -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <span style="font-size:12px;color:var(--text-3);">Trier par :</span>
+          <select class="form-select" id="task-sort" style="width:180px;">
+            <option value="date_created">Date de création</option>
+            <option value="priority">Priorité</option>
+            <option value="due_date">Date d'échéance</option>
+          </select>
+        </div>
+
+        <!-- Liste des tâches -->
+        <div id="tasks-list">
+          <!-- Injecté par TaskManager.renderList() -->
+        </div>
+
+      </section>
+
+      <!-- ========== VUE HABITUDES ========== -->
+      <section class="view" id="view-habits">
+
+        <div class="section-header">
+          <div class="section-title">Tracker Habitudes</div>
+          <div class="flex gap-3 items-center">
+            <div class="card" style="padding:10px 16px;display:flex;align-items:center;gap:10px;">
+              <span style="font-size:12px;color:var(--text-2);">Score discipline</span>
+              <span id="habits-score" style="font-size:20px;font-weight:700;font-family:var(--font-mono);color:var(--accent);">0%</span>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btn-add-habit">＋ Habitude</button>
+          </div>
+        </div>
+
+        <!-- Liste des habitudes -->
+        <div id="habits-list">
+          <!-- Injecté par HabitTracker.renderList() -->
+        </div>
+
+      </section>
+
+      <!-- ========== VUE OBJECTIFS ========== -->
+      <section class="view" id="view-goals">
+
+        <div class="section-header">
+          <div class="section-title">Mon Objectif Principal</div>
+          <button class="btn btn-secondary btn-sm" id="btn-edit-goal">✏️ Modifier</button>
+        </div>
+
+        <!-- Héro objectif -->
+        <div id="goal-hero-container">
+          <!-- Injecté par GoalManager.render() -->
+        </div>
+
+        <!-- Sous-objectifs -->
+        <div id="goal-subs-container" class="mt-5">
+          <!-- Injecté par GoalManager.renderSubs() -->
+        </div>
+
+      </section>
+
+      <!-- ========== VUE BUDGET ========== -->
+      <section class="view" id="view-budget">
+
+        <div class="section-header">
+          <div class="section-title">Budget Personnel</div>
+          <button class="btn btn-primary btn-sm" id="btn-add-transaction">＋ Transaction</button>
+        </div>
+
+        <!-- Résumé soldes -->
+        <div class="budget-summary" id="budget-summary">
+          <!-- Injecté par BudgetManager.renderSummary() -->
+        </div>
+
+        <!-- Grille : transactions + répartition catégories -->
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px;">
+
+          <!-- Liste transactions -->
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em;">
+              Transactions récentes
+            </div>
+            <div id="transactions-list">
+              <!-- Injecté par BudgetManager.renderTransactions() -->
+            </div>
+          </div>
+
+          <!-- Répartition catégories -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;">
+              <span>📊</span> Répartition dépenses
+            </div>
+            <div class="category-bars" id="category-bars">
+              <!-- Injecté par BudgetManager.renderCategories() -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ========== VUE STATISTIQUES ========== -->
+      <section class="view" id="view-stats">
+
+        <div class="section-header">
+          <div class="section-title">Statistiques</div>
+          <button class="btn btn-secondary btn-sm" id="btn-refresh-stats">↻ Actualiser</button>
+        </div>
+
+        <!-- Métriques clés -->
+        <div class="stats-grid" id="stats-metrics">
+          <!-- Injecté par StatsEngine.render() -->
+        </div>
+
+        <!-- Graphes SVG -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;"><span>✅</span> Tâches (7 derniers jours)</div>
+            <div id="chart-tasks"></div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;"><span>🔥</span> Habitudes (7 derniers jours)</div>
+            <div id="chart-habits"></div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;"><span>💰</span> Dépenses par catégorie</div>
+            <div id="chart-budget"></div>
+          </div>
+        </div>
+
+      </section>
+
+    </div><!-- /view-container -->
+  </div><!-- /main-content -->
+</div><!-- /app -->
+
+<!-- ===== MODAL AJOUT TÂCHE ===== -->
+<div class="modal-overlay" id="modal-task">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-task-title">Nouvelle tâche</div>
+      <button class="modal-close" data-close="modal-task">✕</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-group">
+        <label class="form-label">Titre *</label>
+        <input type="text" class="form-input" id="task-input-title" placeholder="Décrivez votre tâche…" />
+      </div>
+
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Priorité</label>
+          <select class="form-select" id="task-input-priority">
+            <option value="medium">⚡ Moyenne</option>
+            <option value="high">🔴 Haute</option>
+            <option value="low">🔵 Basse</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Échéance</label>
+          <input type="date" class="form-input" id="task-input-date" />
+        </div>
+      </div>
+
+      <input type="hidden" id="task-edit-id" value="" />
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-task">Annuler</button>
+      <button class="btn btn-primary" id="btn-save-task">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL AJOUT HABITUDE ===== -->
+<div class="modal-overlay" id="modal-habit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nouvelle habitude</div>
+      <button class="modal-close" data-close="modal-habit">✕</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-group">
+        <label class="form-label">Nom de l'habitude *</label>
+        <input type="text" class="form-input" id="habit-input-name" placeholder="ex : Méditation, Sport, Lecture…" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Icône</label>
+        <div class="emoji-picker" id="habit-emoji-picker">
+          <div class="emoji-option selected" data-emoji="💪">💪</div>
+          <div class="emoji-option" data-emoji="🧘">🧘</div>
+          <div class="emoji-option" data-emoji="📚">📚</div>
+          <div class="emoji-option" data-emoji="🏃">🏃</div>
+          <div class="emoji-option" data-emoji="💧">💧</div>
+          <div class="emoji-option" data-emoji="🥗">🥗</div>
+          <div class="emoji-option" data-emoji="✍️">✍️</div>
+          <div class="emoji-option" data-emoji="🎯">🎯</div>
+          <div class="emoji-option" data-emoji="🌅">🌅</div>
+          <div class="emoji-option" data-emoji="🛌">🛌</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Fréquence</label>
+        <select class="form-select" id="habit-input-freq">
+          <option value="daily">📅 Quotidienne</option>
+          <option value="weekly">📆 Hebdomadaire</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-habit">Annuler</button>
+      <button class="btn btn-primary" id="btn-save-habit">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL OBJECTIF ===== -->
+<div class="modal-overlay" id="modal-goal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <div class="modal-title">Configurer mon objectif</div>
+      <button class="modal-close" data-close="modal-goal">✕</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-group">
+        <label class="form-label">Titre de l'objectif *</label>
+        <input type="text" class="form-input" id="goal-input-title" placeholder="Mon grand objectif…" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" id="goal-input-desc" placeholder="Décrivez votre objectif en détail…"></textarea>
+      </div>
+
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Date limite</label>
+          <input type="date" class="form-input" id="goal-input-deadline" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Avancement (%)</label>
+          <input type="number" class="form-input" id="goal-input-progress" min="0" max="100" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Sous-objectifs (max 5)</label>
+        <div id="sub-goals-inputs">
+          <!-- Injecté dynamiquement -->
+        </div>
+        <button class="btn btn-secondary btn-sm mt-3" id="btn-add-sub" style="align-self:flex-start;">
+          ＋ Sous-objectif
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-goal">Annuler</button>
+      <button class="btn btn-primary" id="btn-save-goal">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL TRANSACTION ===== -->
+<div class="modal-overlay" id="modal-transaction">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nouvelle transaction</div>
+      <button class="modal-close" data-close="modal-transaction">✕</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-group">
+        <label class="form-label">Libellé *</label>
+        <input type="text" class="form-input" id="tx-input-label" placeholder="ex : Loyer, Courses, Salaire…" />
+      </div>
+
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Montant (€) *</label>
+          <input type="number" class="form-input" id="tx-input-amount" min="0" step="0.01" placeholder="0.00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="tx-input-type">
+            <option value="expense">💸 Dépense</option>
+            <option value="income">💚 Revenu</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Catégorie</label>
+        <select class="form-select" id="tx-input-category">
+          <option value="Logement">🏠 Logement</option>
+          <option value="Alimentation">🥦 Alimentation</option>
+          <option value="Transport">🚗 Transport</option>
+          <option value="Loisirs">🎮 Loisirs</option>
+          <option value="Santé">💊 Santé</option>
+          <option value="Autre">📦 Autre</option>
+          <option value="Revenu">💼 Revenu</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-transaction">Annuler</button>
+      <button class="btn btn-primary" id="btn-save-transaction">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div id="toast-container"></div>
+
+<!-- ===== SCRIPT PRINCIPAL ===== -->
+<script src="app.js"></script>
+
+</body>
+</html>
