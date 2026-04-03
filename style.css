@@ -1400,3 +1400,199 @@ body {
 }
 
 .pulse { animation: pulseAccent 2s infinite; }
+
+/* ===== BOTTOM NAV — masqué par défaut (desktop) ===== */
+#bottom-nav {
+  display: none;
+}
+
+/* ===== MOBILE — smartphones (≤ 640px) ===== */
+@media (max-width: 640px) {
+
+  /* Hauteur dynamique pour éviter le chrome du navigateur */
+  #app {
+    height: 100dvh;
+  }
+
+  /* Masquer la sidebar latérale */
+  #sidebar {
+    display: none;
+  }
+
+  /* Contenu principal pleine largeur */
+  #main-content {
+    width: 100%;
+  }
+
+  /* Topbar compact */
+  #topbar {
+    padding: 0 var(--sp-4);
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .topbar-title { font-size: 16px; }
+  .topbar-subtitle { display: none; }
+
+  /* Zone de vue : padding réduit + espace pour le bottom nav */
+  #view-container {
+    padding: var(--sp-4);
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  #bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: var(--bg-sidebar);
+    border-top: 1px solid var(--border);
+    height: calc(60px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+  }
+
+  #bottom-nav .nav-item {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--sp-1) 0;
+    gap: 2px;
+    border-radius: 0;
+    white-space: nowrap;
+    color: var(--text-3);
+  }
+
+  #bottom-nav .nav-item:hover {
+    background: transparent;
+    color: var(--text-2);
+  }
+
+  #bottom-nav .nav-item.active {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  #bottom-nav .nav-item.active::before { display: none; }
+
+  #bottom-nav .nav-item .nav-icon {
+    font-size: 20px;
+    width: auto;
+  }
+
+  #bottom-nav .nav-item .nav-text {
+    font-size: 10px;
+    font-weight: 500;
+    overflow: visible;
+  }
+
+  /* ===== GRILLES → colonne unique ===== */
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-4);
+  }
+
+  .dashboard-grid-wide {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
+
+  .budget-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+  }
+
+  .budget-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--sp-4) !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
+
+  /* Grilles inline stats charts */
+  #view-stats > div[style] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--sp-4) !important;
+  }
+
+  /* ===== FORMULAIRES ===== */
+  .form-row.cols-2,
+  .form-row.cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  /* ===== MODAL → bottom sheet ===== */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    max-height: 92vh;
+    transform: translateY(100%);
+    padding: var(--sp-5) var(--sp-4);
+  }
+
+  .modal-overlay.open .modal {
+    transform: translateY(0);
+    scale: 1;
+  }
+
+  /* ===== TOAST → haut de l'écran ===== */
+  #toast-container {
+    top: var(--sp-4);
+    bottom: auto;
+    right: var(--sp-4);
+    left: var(--sp-4);
+  }
+
+  .toast {
+    min-width: auto;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* ===== ACTIONS TÂCHE → toujours visibles (pas de hover mobile) ===== */
+  .task-actions {
+    opacity: 1;
+  }
+
+  /* ===== ZONES DE TOUCHER (44px min) ===== */
+  .btn { min-height: 42px; }
+  .btn-sm { min-height: 36px; }
+
+  .task-check {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+  }
+
+  .filter-tab { padding: 8px var(--sp-2); font-size: 12px; }
+
+  /* ===== OBJECTIFS ===== */
+  .goal-hero { padding: var(--sp-5); }
+  .goal-title-big { font-size: 22px; }
+  .goal-desc { max-width: 100%; }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header { flex-wrap: wrap; gap: var(--sp-3); }
+
+  /* ===== STAT VALUES ===== */
+  .stat-value { font-size: 28px; }
+
+  /* ===== HABITS ===== */
+  .habit-week-grid { gap: 3px; }
+  .habit-day-dot { width: 8px; height: 8px; }
+}
