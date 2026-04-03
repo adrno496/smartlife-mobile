@@ -1604,9 +1604,9 @@ if ('serviceWorker' in navigator) {
 
 /* ===== NAV DRAWER (mobile) ===== */
 (function () {
-  const drawer  = document.getElementById('nav-drawer');
-  const overlay = document.getElementById('nav-drawer-overlay');
-  const btnOpen = document.getElementById('btn-menu-toggle');
+  const drawer   = document.getElementById('nav-drawer');
+  const overlay  = document.getElementById('nav-drawer-overlay');
+  const btnOpen  = document.getElementById('btn-menu-toggle');
   const btnClose = document.getElementById('btn-drawer-close');
 
   function openDrawer() {
@@ -1625,8 +1625,35 @@ if ('serviceWorker' in navigator) {
   btnClose.addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
 
-  // Fermer automatiquement quand on choisit une section
   drawer.querySelectorAll('.nav-item[data-nav]').forEach(item => {
     item.addEventListener('click', closeDrawer);
+  });
+})();
+
+/* ===== THÈME CLAIR / SOMBRE ===== */
+(function () {
+  const btn  = document.getElementById('btn-theme-toggle');
+  const root = document.documentElement;
+  const KEY  = 'smartlife-theme';
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      root.setAttribute('data-theme', 'light');
+      btn.textContent = '☀️';
+      btn.title = 'Passer en thème sombre';
+    } else {
+      root.removeAttribute('data-theme');
+      btn.textContent = '🌙';
+      btn.title = 'Passer en thème clair';
+    }
+    localStorage.setItem(KEY, theme);
+  }
+
+  // Restaurer le thème sauvegardé
+  applyTheme(localStorage.getItem(KEY) || 'dark');
+
+  btn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
   });
 })();
